@@ -6,6 +6,8 @@
 ///
 /// All other lines are ignored.
 use regex::Regex;
+use std::collections::HashMap;
+use std::ops::{Index, IndexMut};
 
 #[derive(Debug)]
 struct Entry {
@@ -27,10 +29,24 @@ impl Entry {
 #[derive(Debug)]
 pub struct Procfile {
     filename: String,
-    entries: Vec<Entry>,
+    entries: HashMap<String, Entry>,
+}
+
+impl Index<String> for Procfile {
+    type Output = Entry;
+    fn index<'a>(&'a self, i: String) -> &'a Entry {
+        &self.entries[&i]
+    }
+}
+
+impl IndexMut<String> for Procfile {
+    fn index_mut<'a>(&'a mut self, i: String) -> &'a mut Entry {
+        &mut self.entries[&i]
+    }
 }
 
 impl Procfile {
+
     fn parse(&mut self) {
         let data = match std::fs::read_to_string(&self.filename) {
             Ok(string) => string,
@@ -42,11 +58,8 @@ impl Procfile {
         let re = Regex::new(r"^([A-Za-z0-9_-]+):\s*(.+)$").expect("Cannot build regexp");
         for line in data.replace("\r\n", "\n").split('\n') {
             for cap in re.captures_iter(line) {
-                self.entries.push(Entry::new(
-                    line.to_string(),
-                    (&cap[1]).to_string(),
-                    (&cap[2]).to_string(),
-                ));
+                let entry = Entry::new(line.to_string(), (&cap[1]).to_string(), (&cap[2]).to_string());
+                self.entries.insert(entry.name.clone(), entry);
             }
         }
     }
@@ -54,7 +67,7 @@ impl Procfile {
     pub fn new(filename: String) -> Procfile {
         let mut procfile = Procfile {
             filename,
-            entries: Vec::new(),
+            entries: HashMap::new(),
         };
         procfile.parse();
         procfile
