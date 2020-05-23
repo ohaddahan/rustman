@@ -3,5 +3,5 @@ use rustman_lib::procfile::Procfile;
 
 fn main() {
     let procfile = Procfile::new("rustman-lib/tests/Procfile.test".to_string());
-    println!("procfile = {:#?}", procfile);
+    println!("procfile:\n{}", procfile);
 }
