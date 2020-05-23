@@ -1,0 +1,3 @@
+web: rails server
+worker1: dyno1
+worker2
