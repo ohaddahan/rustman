@@ -1,18 +1,8 @@
-/// Reads and writes Procfiles
-///
-/// A valid Procfile entry is captured by this regex:
-///
-///   /^([A-Za-z0-9_]+):\s*(.+)$/
-///
-/// All other lines are ignored.
 use lazy_static::lazy_static;
 use regex::Regex;
 use std::collections::BTreeMap;
 use std::fmt;
-use std::fs::File;
-use std::io::Write;
 use std::ops::Index;
-use std::path::Path;
 
 lazy_static! {
     static ref RE: Regex = Regex::new(r"^([A-Za-z0-9_-]+):\s*(.+)$").expect("Cannot build regexp");
@@ -79,10 +69,12 @@ impl Procfile {
     }
     */
 
+    #[cfg(test)]
     fn delete(&mut self, name: &String) {
         self.entries.remove(name);
     }
 
+    #[cfg(test)]
     fn save(&self, filename: Option<&str>) -> std::io::Result<()> {
         let output_filename = match filename {
             Some(_) => filename.unwrap(),
@@ -126,6 +118,9 @@ impl Procfile {
 
 #[cfg(test)]
 mod tests {
+    use std::io::Write;
+    use std::path::Path;
+    use std::fs::File;
     static PROCFILE_IN_PATH: &'static str = "tests/Procfile.in.test";
     static PROCFILE_OUT_PATH: &'static str = "tests/Procfile.out.test";
     use super::*;
