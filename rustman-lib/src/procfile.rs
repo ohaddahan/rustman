@@ -126,6 +126,8 @@ impl Procfile {
 
 #[cfg(test)]
 mod tests {
+    static PROCFILE_IN_PATH: &'static str = "tests/Procfile.in.test";
+    static PROCFILE_OUT_PATH: &'static str = "tests/Procfile.out.test";
     use super::*;
     #[test]
     fn test_entry_constructor() {
@@ -179,7 +181,7 @@ mod tests {
 
     #[test]
     fn test_parse() {
-        let procfile1_path = String::from("tests/Procfile1.test");
+        let procfile1_path = String::from(PROCFILE_IN_PATH);
         let procfile1 = std::fs::read_to_string(&procfile1_path)
             .expect("test_parse failed reading procfile1_path");
         let procfile = Procfile::new(procfile1_path);
@@ -188,8 +190,8 @@ mod tests {
 
     #[test]
     fn test_procfile_save() {
-        let procfile1_path = String::from("tests/Procfile1.test");
-        let procfile2_path = String::from("tests/Procfile1.test.tmp");
+        let procfile1_path = String::from(PROCFILE_IN_PATH);
+        let procfile2_path = String::from(PROCFILE_OUT_PATH);;
 
         if Path::new(&procfile2_path).exists() {
             std::fs::remove_file(&procfile2_path);
@@ -214,7 +216,7 @@ mod tests {
 
     #[test]
     fn test_delete() {
-        let procfile1_path = String::from("tests/Procfile1.test");
+        let procfile1_path = String::from(PROCFILE_IN_PATH);
         let procfile1 = std::fs::read_to_string(&procfile1_path)
             .expect("test_parse failed reading procfile1_path");
         let mut procfile = Procfile::new(procfile1_path);
