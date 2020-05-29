@@ -2,7 +2,7 @@ use lazy_static::lazy_static;
 use regex::Regex;
 use std::collections::BTreeMap;
 use std::fmt;
-use std::ops::Index;
+use std::ops::{Index, IndexMut};
 use std::fs::File;
 use std::io::prelude::*;
 
@@ -297,35 +297,38 @@ mod tests {
 
     #[test]
     fn test_returns_nil_when_attempting_to_retrieve_an_non_existing_entry() {
-//        write_procfile
-//        procfile = Foreman::Procfile.new("Procfile")
-//        expect(procfile["unicorn"]).to eq(nil)
+        let tmpfile = TmpFile::write_procfile(Some(PROCFILE_WRITE_PROCFILE), None);
+        let procfile = Procfile::new(Some(tmpfile.filename.as_str()));
+        assert!(!procfile.entries.contains_key("unicorn"));
     }
 
 
-    #[test]
-    fn test_can_have_a_process_appended_to_it() {
-        //subject["charlie"] = "./charlie"
-        //expect(subject["charlie"]).to eq("./charlie")
-    }
+    // Need to implement IndexMut
 
+    //#[test]
+    //fn test_can_have_a_process_appended_to_it() {
+    //    let tmpfile = TmpFile::write_procfile(Some(PROCFILE_WRITE_PROCFILE), None);
+    //    let procfile = Procfile::new(Some(tmpfile.filename.as_str()));
+    //    //subject["charlie"] = "./charlie"
+    //    //expect(subject["charlie"]).to eq("./charlie")
+    //}
 
-    #[test]
-    fn test_can_write_to_a_string() {
-        //it "can write to a string" do
-        //subject["foo"] = "./foo"
-        //subject["bar"] = "./bar"
-        //expect(subject.to_s).to eq("foo: ./foo\nbar: ./bar")
-        //end
-    }
+    //#[test]
+    //fn test_can_write_to_a_string() {
+    //    //it "can write to a string" do
+    //    //subject["foo"] = "./foo"
+    //    //subject["bar"] = "./bar"
+    //    //expect(subject.to_s).to eq("foo: ./foo\nbar: ./bar")
+    //    //end
+    //}
 
-    #[test]
-    fn test_can_write_to_a_file() {
-        // subject["foo"] = "./foo"
-        // subject["bar"] = "./bar"
-        // Dir.mkdir('/tmp')
-        // subject.save "/tmp/proc"
-        // expect(File.read("/tmp/proc")).to eq("foo: ./foo\nbar: ./bar\n")
-        // end
-    }
+    //#[test]
+    //fn test_can_write_to_a_file() {
+    //    // subject["foo"] = "./foo"
+    //    // subject["bar"] = "./bar"
+    //    // Dir.mkdir('/tmp')
+    //    // subject.save "/tmp/proc"
+    //    // expect(File.read("/tmp/proc")).to eq("foo: ./foo\nbar: ./bar\n")
+    //    // end
+    //}
 }

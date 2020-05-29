@@ -13,21 +13,8 @@ fn main() {
     let mut opt: HashMap<String, String> = HashMap::new();
     let mut env: HashMap<String, String> = HashMap::new();
 
-    print(&mut count, &opt, "opt");
-    print(&mut count, &env, "env");
-    opt.insert("opt1".to_string(), "roar1".to_string());
-    print(&mut count, &opt, "opt");
-    print(&mut count, &env, "env");
-    env.insert("env1".to_string(), "val1".to_string());
-    print(&mut count, &env, "env");
-    env.extend(opt);
-//    print(&mut count, &opt, "opt");
-    print(&mut count, &env, "env");
+    let cmd = "rustman-lib/tests/test.sh";
 
-    let cmd = std::fs::read_to_string("cmd.sh").unwrap();
-    print!("\n-----------\n");
-    print!("cmd = {}", cmd);
-    print!("\n-----------\n");
     let output = Command::new("sh").
         arg("-c").
         arg(&cmd).
