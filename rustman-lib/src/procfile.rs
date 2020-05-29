@@ -72,15 +72,15 @@ impl<'a> Procfile {
     fn guard_filename(&self, filename: Option<&'a str>) -> &'a str {
         match filename {
             Some(i) => {
-                return i
+                i
             },
             _ => {
                 panic!("Cannot parse when filename is None");
             }
-        };
+        }
     }
 
-    fn delete(&mut self, name: &String) {
+    fn delete(&mut self, name: &str) {
         self.entries.remove(name);
     }
 
@@ -117,13 +117,13 @@ impl<'a> Procfile {
         let mut procfile = Procfile {
             entries: BTreeMap::new(),
         };
-        return match filename {
+        match filename {
             Some(_) => {
                 procfile.parse(filename);
                 procfile
             },
             None => procfile
-        };
+        }
     }
 }
 
@@ -293,5 +293,39 @@ mod tests {
             map(|i| i.as_str()).
             collect();
         assert_eq!(ref_keys, test_keys);
+    }
+
+    #[test]
+    fn test_returns_nil_when_attempting_to_retrieve_an_non_existing_entry() {
+//        write_procfile
+//        procfile = Foreman::Procfile.new("Procfile")
+//        expect(procfile["unicorn"]).to eq(nil)
+    }
+
+
+    #[test]
+    fn test_can_have_a_process_appended_to_it() {
+        //subject["charlie"] = "./charlie"
+        //expect(subject["charlie"]).to eq("./charlie")
+    }
+
+
+    #[test]
+    fn test_can_write_to_a_string() {
+        //it "can write to a string" do
+        //subject["foo"] = "./foo"
+        //subject["bar"] = "./bar"
+        //expect(subject.to_s).to eq("foo: ./foo\nbar: ./bar")
+        //end
+    }
+
+    #[test]
+    fn test_can_write_to_a_file() {
+        // subject["foo"] = "./foo"
+        // subject["bar"] = "./bar"
+        // Dir.mkdir('/tmp')
+        // subject.save "/tmp/proc"
+        // expect(File.read("/tmp/proc")).to eq("foo: ./foo\nbar: ./bar\n")
+        // end
     }
 }
