@@ -122,15 +122,25 @@ mod tests {
     }
 
     #[test]
-    fn test_cwd() {}
+    fn test_cwd() {
+        //TODO
+    }
     #[test]
-    fn test_chdir() {}
+    fn test_chdir() {
+        //TODO
+    }
     #[test]
-    fn test_exec() {}
+    fn test_exec() {
+        //TODO
+    }
     #[test]
-    fn test_run() {}
+    fn test_run() {
+        //TODO
+    }
     #[test]
-    fn test_expanded_command() {}
+    fn test_expanded_command() {
+        //TODO
+    }
 
     #[test]
     fn test_runs_the_process() {
@@ -165,6 +175,7 @@ mod tests {
         assert_eq!("bar\n", run(process, Some(env)));
     }
 
+    //TODO
     //#[test]
     //fn test_should_output_utf8_properly() {
     //    let process = Process::new(UTF8_BIN.to_string(), None, None, None);
@@ -194,8 +205,6 @@ mod tests {
         let mut process = Process::new(TEST_BIN.to_string(), None, None, None);
         assert_eq!("testing\n", process.exec(None));
     }
-
-
 
     #[test]
     fn test_can_execute_with_env() {
