@@ -2,10 +2,11 @@ use lazy_static::lazy_static;
 use regex::Regex;
 use std::collections::BTreeMap;
 use std::fmt;
-use std::ops::{Index, IndexMut};
+#[cfg(test)]
 use std::fs::File;
+#[cfg(test)]
 use std::io::prelude::*;
-
+use std::ops::Index;
 
 lazy_static! {
     static ref RE: Regex = Regex::new(r"^([A-Za-z0-9_-]+):\s*(.+)$").expect("Cannot build regexp");
@@ -64,6 +65,7 @@ impl fmt::Display for Procfile {
 }
 
 impl<'a> Procfile {
+    #[cfg(test)]
     fn load(&mut self, filename: Option<&str>) {
         self.entries.clear();
         self.parse(filename);
@@ -71,19 +73,19 @@ impl<'a> Procfile {
 
     fn guard_filename(&self, filename: Option<&'a str>) -> &'a str {
         match filename {
-            Some(i) => {
-                i
-            },
+            Some(i) => i,
             _ => {
                 panic!("Cannot parse when filename is None");
             }
         }
     }
 
+    #[cfg(test)]
     fn delete(&mut self, name: &str) {
         self.entries.remove(name);
     }
 
+    #[cfg(test)]
     fn save(&self, filename: Option<&str>) -> std::io::Result<()> {
         let file_to_save = self.guard_filename(filename);
         let mut file = File::create(file_to_save)?;
@@ -121,8 +123,8 @@ impl<'a> Procfile {
             Some(_) => {
                 procfile.parse(filename);
                 procfile
-            },
-            None => procfile
+            }
+            None => procfile,
         }
     }
 }
@@ -132,15 +134,15 @@ mod tests {
     use super::*;
     use rand::Rng;
     use std::path::Path;
+    use std::fs::File;
 
     static PROCFILE_IN_PATH: &'static str = "tests/Procfile";
     static PROCFILE_OUT_PATH: &'static str = "tests/Procfile.out";
     static PROCFILE_WRITE_PROCFILE: &'static str = "tests/Procfile.tmp";
 
     struct TmpFile {
-        filename: String
+        filename: String,
     }
-
 
     impl Drop for TmpFile {
         fn drop(&mut self) {
@@ -160,14 +162,14 @@ mod tests {
             let random_number = rng.gen_range(0, 1000000);
             let filename = match procfile {
                 Some(i) => i,
-                None => PROCFILE_WRITE_PROCFILE
+                None => PROCFILE_WRITE_PROCFILE,
             };
             let final_filename = format!("{}.{}", filename, random_number);
-            let mut file = File::create(final_filename.as_str()).
-                expect("write_procfile failed creating file");
+            let mut file =
+                File::create(final_filename.as_str()).expect("write_procfile failed creating file");
             let alpha = match alpha_env {
                 Some(i) => i,
-                None => ""
+                None => "",
             };
             file.write_all(format!("alpha: ./alpha{}\n", alpha).as_bytes());
             file.write_all(format!("bravo:\t./bravo\n").as_bytes());
@@ -175,7 +177,9 @@ mod tests {
             file.write_all(format!("foo-bar:\t./foo-bar\n").as_bytes());
             file.write_all(format!("# baz:\t./baz\n").as_bytes());
             file.sync_all();
-            let tmpfile = TmpFile { filename: final_filename.to_string() };
+            let tmpfile = TmpFile {
+                filename: final_filename.to_string(),
+            };
             tmpfile
         }
     }
@@ -263,7 +267,6 @@ mod tests {
         assert_eq!(5, procfile.entries.len());
         procfile.delete(&procfile.entries.keys().next().unwrap().clone());
         assert_eq!(4, procfile.entries.len());
-
     }
     // Tests from https://github.com/ddollar/foreman/blob/master/spec/foreman/procfile_spec.rb
     #[test]
@@ -288,10 +291,7 @@ mod tests {
         let tmpfile = TmpFile::write_procfile(Some(PROCFILE_WRITE_PROCFILE), None);
         let procfile = Procfile::new(Some(tmpfile.filename.as_str()));
         let ref_keys = vec!["alpha", "bravo", "foo-bar", "foo_bar"];
-        let test_keys: Vec<&str> = procfile.entries.
-            keys().
-            map(|i| i.as_str()).
-            collect();
+        let test_keys: Vec<&str> = procfile.entries.keys().map(|i| i.as_str()).collect();
         assert_eq!(ref_keys, test_keys);
     }
 
@@ -301,7 +301,6 @@ mod tests {
         let procfile = Procfile::new(Some(tmpfile.filename.as_str()));
         assert!(!procfile.entries.contains_key("unicorn"));
     }
-
 
     // Need to implement IndexMut
 
