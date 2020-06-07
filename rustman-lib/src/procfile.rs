@@ -133,8 +133,8 @@ impl<'a> Procfile {
 mod tests {
     use super::*;
     use rand::Rng;
-    use std::path::Path;
     use std::fs::File;
+    use std::path::Path;
 
     static PROCFILE_IN_PATH: &'static str = "tests/Procfile";
     static PROCFILE_OUT_PATH: &'static str = "tests/Procfile.out";

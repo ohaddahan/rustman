@@ -46,7 +46,9 @@ impl Process {
 
     pub fn run(&self, options: Option<HashMap<String, String>>) -> Child {
         let mut env = self.env.clone();
-        if let Some(i) = options { env.extend(i) };
+        if let Some(i) = options {
+            env.extend(i)
+        };
         let path = env::current_dir().unwrap();
         self.chdir(self.cwd());
         let cmd = self.expanded_command(Some(&env));
@@ -63,7 +65,9 @@ impl Process {
 
     pub fn exec(&mut self, options: Option<HashMap<String, String>>) -> String {
         let mut env = self.env.clone();
-        if let Some(i) = options { env.extend(i) };
+        if let Some(i) = options {
+            env.extend(i)
+        };
         for (key, val) in env.iter() {
             env::set_var(key, val);
         }
@@ -99,8 +103,8 @@ impl Process {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::io::prelude::*;
     use std::error::Error;
+    use std::io::prelude::*;
 
     static TEST_BIN: &'static str = "tests/test.sh";
     static ENV_BIN: &'static str = "tests/env.sh";
