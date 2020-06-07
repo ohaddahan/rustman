@@ -1,10 +1,9 @@
-![Rust](https://img.shields.io/badge/all-pass-brightgreen)
-![Rust Build](https://img.shields.io/badge/build-pass-brightgreen)
-![Rust Tests](https://img.shields.io/badge/tests-pass-brightgreen)
-![Rust Clippy](https://img.shields.io/badge/clippy-pass-brightgreen)
-![Rust Fmt](https://img.shields.io/badge/fmt-pass-brightgreen)
-![Rust Check](https://img.shields.io/badge/check-pass-brightgreen)
-
+![Rust Check](https://github.com/ohaddahan/rustman/workflows/Rust%20Check/badge.svg)
+![Rust Build](https://github.com/ohaddahan/rustman/workflows/Rust%20Build/badge.svg)
+![Rust Clippy](https://github.com/ohaddahan/rustman/workflows/Rust%20Clippy/badge.svg)
+![Rust Fmt](https://github.com/ohaddahan/rustman/workflows/Rust%20Fmt/badge.svg)
+![Rust Tests](https://github.com/ohaddahan/rustman/workflows/Rust%20Tests/badge.svg)
+![Rust All](https://github.com/ohaddahan/rustman/workflows/Rust/badge.svg)
 
 # rustman
 Foreman in Rust
