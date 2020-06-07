@@ -41,7 +41,8 @@ jobs:
           override: true
       - uses: actions-rs/cargo@v1
         with:
-          command: test --all --verbose
+          command: test
+          args: --all --verbose
 
   fmt:
     name: Rustfmt
