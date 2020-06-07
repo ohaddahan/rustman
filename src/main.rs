@@ -2,11 +2,11 @@
 // https://rust-cli.github.io/book/index.html
 
 extern crate rustman_lib;
-use std::str;
-use rustman_lib::procfile::Procfile;
-use rustman_lib::process::Process;
+//use rustman_lib::process::Process;
+//use rustman_lib::procfile::Procfile;
+//use std::collections::HashMap;
 use std::process::Command;
-use std::collections::HashMap;
+use std::str;
 
 //fn print(count: &mut i32, hash: &HashMap<String, String>, name: &str) {
 //    *count += 1;
@@ -32,12 +32,11 @@ fn main() {
     //    expect("failed to execute process");
     //print!("output = {:#?}", output);
 
-    let output = Command::new("sh").
-        arg("-c").
-        arg(&cmd).
-        output().
-        expect("failed to execute process");
-
+    let output = Command::new("sh")
+        .arg("-c")
+        .arg(&cmd)
+        .output()
+        .expect("failed to execute process");
 
     print!("output = {}", str::from_utf8(&output.stdout).unwrap());
     //let procfile = Procfile::new(String::from("rustman-lib/tests/Procfile1.test"));
