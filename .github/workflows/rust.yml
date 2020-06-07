@@ -1,4 +1,4 @@
-name: Rust
+name: Rust All
 
 on: [push, pull_request]
 
